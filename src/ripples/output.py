@@ -17,7 +17,7 @@ def to_image(arr, maxVal=2):
 
     # Calculate new dimensions
     width, height = img.size
-    scale_factor = 4
+    scale_factor = 2
     new_size = (width * scale_factor, height * scale_factor)
 
     # Resize using high-quality interpolation
@@ -51,4 +51,5 @@ def write_gif():
         # duration=0.05,
         optimize=True,  # Enable optimization
         subrectangles=True,  # Only update changed pixels between frames
+        loop=0,  # Loop infinitely
     )

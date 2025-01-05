@@ -13,13 +13,19 @@ def saltate(h):
 
     for j in range(0, NX):
         for i in range(0, NY):
-            h[i, j] = h[i, j] - Q
-            jump = int(L_integer[i, j])
-            if j + jump <= (NX - 1):
-                h[i, j + jump] = h[i, j + jump] + Q
-            else:
-                wrap = j + jump - NX
-                h[i, wrap] = h[i, wrap] + Q
+            # Calculate local slope in x direction (with periodic boundary)
+            next_j = (j + 1) % NX
+            slope = h[i, next_j] - h[i, j]
+
+            # NOTE: change the transport condition here. E.g.: only perform saltation if slope is positive
+            if slope:
+                h[i, j] = h[i, j] - Q
+                jump = int(L_integer[i, j])
+                if j + jump <= (NX - 1):
+                    h[i, j + jump] = h[i, j + jump] + Q
+                else:
+                    wrap = j + jump - NX
+                    h[i, wrap] = h[i, wrap] + Q
     return h
 
 
